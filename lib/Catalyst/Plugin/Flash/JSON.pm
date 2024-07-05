@@ -10,7 +10,11 @@ my $jx = JSON::MaybeXS->new->ascii;
 
 sub flash_to_cookie { shift; $jx->encode( \@_ ) }
 
-sub flash_from_cookie { local $@; map ref eq 'ARRAY' ? @$_ : (), eval { $jx->decode( $_[1] ) } }
+sub flash_from_cookie {
+	local $@;
+	my $data = $_[1];
+	$data && $data =~ /^\[/ && eval { $data = $jx->decode( $data ) } ? @$data : ();
+}
 
 # use Catalyst 5.80004 ();
 use Moose::Role;
