@@ -8,7 +8,8 @@ our $VERSION = '0.001';
 use JSON::MaybeXS;
 my $jx = JSON::MaybeXS->new->ascii;
 
-sub flash_to_cookie   { shift; $jx->encode( \@_ ) }
+sub flash_to_cookie { shift; $jx->encode( \@_ ) }
+
 sub flash_from_cookie { local $@; map ref eq 'ARRAY' ? @$_ : (), eval { $jx->decode( $_[1] ) } }
 
 # use Catalyst 5.80004 ();
